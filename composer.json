@@ -1,0 +1,13 @@
+{
+    "name": "rasteiner/k3-awesome-picker",
+    "description": "Kirby 3 panel field that lets you choose a (free) icon from Font Awesome",
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roman Steiner",
+            "email": "roman@toastlab.ch"
+        }
+    ],
+    "require": {}
+}

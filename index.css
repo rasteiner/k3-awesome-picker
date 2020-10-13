@@ -1,0 +1,83 @@
+.afp-icon-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.afp-input {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid var(--color-border);
+  min-height: 3rem;
+}
+
+.afp-input.open {
+  border: 1px solid #4271ae;
+}
+.afp-input i {
+  width: 3rem;
+  font-size: 2rem;
+  padding: 0.5rem;
+  display: block;
+  border-right: 1px solid var(--color-border);
+  text-align: center;
+}
+.afp-input .name {
+  padding: 0.5rem;
+  flex-grow: 1;
+  user-select: none;
+}
+.afp-input .k-icon {
+  width: 2.25rem;
+  height: 100%;
+}
+
+.afp-dropdown {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 1px solid var(--color-border);
+}
+.afp-list-container {
+  margin-top: -1rem;
+  overflow-y: scroll;
+  height: 15rem;
+  padding: 1rem;
+}
+
+.afp-list {
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(7rem, 1fr) );
+  justify-items: center;
+
+  gap: 1rem;
+}
+
+.afp-list--icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-border);
+
+}
+
+.afp-list--icon:hover {
+  background-color: var();
+}
+
+.afp-list--icon  i {
+  font-size: 2rem;
+}
+
+.afp-list--icon-name {
+  font-size: var(--font-size-tiny);
+  color: var(--color-text-light);
+  margin-top: .25rem;
+  text-align: center;
+}
