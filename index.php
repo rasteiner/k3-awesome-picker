@@ -46,9 +46,9 @@ Kirby::plugin('rasteiner/awesome-picker', [
     'fields' => [
         'icon' => [
             'props' => [
-                'styles' => function($styles = '["solid", "regular", "brands"]') {
+                'styles' => function($styles = ["solid", "regular", "brands"]) {
                     if(!is_array($styles)) $styles = [$styles];
-                    return data::decode($styles, 'yml');
+                    return $styles;
                 }
             ]
         ]
