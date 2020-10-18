@@ -4,14 +4,16 @@ let iconsPromise = false
 let iconsCache = false
 let stylesAdded = false
 
-function addStyles() {
+function addStyles($api) {
   if(!stylesAdded) {
     stylesAdded = true
     const link = document.createElement('link')
-    link.href = 'https://kit-free.fontawesome.com/releases/latest/css/free.min.css'
-    link.rel = 'stylesheet'
-    window.document.head.appendChild(link)
-
+    
+    $api.get('rasteiner/awesome-picker/cssurl').then((info) => {
+      link.href = info.url
+      link.rel = 'stylesheet'
+      window.document.head.appendChild(link)
+    })
   }
 }
 
@@ -24,7 +26,7 @@ panel.plugin("rasteiner/awesome-picker", {
         field: Object
       },
       created() {
-        addStyles()
+        addStyles(this.$api)
       },
       template: '<div class="afp-icon-preview"><i :class="value"></i></div>'
     }
@@ -33,7 +35,8 @@ panel.plugin("rasteiner/awesome-picker", {
     icon: {
       props: {
         value: String,
-        styles: Array
+        styles: Array,
+        label: String,
       },
       data() {
         return {
@@ -43,12 +46,16 @@ panel.plugin("rasteiner/awesome-picker", {
         }
       },
       created() {
-        addStyles()
+        addStyles(this.$api)
         if(!iconsPromise) {
-          iconsPromise = this.$api.get('rasteiner/awesome-picker/icons').then((icons) => {
-            iconsCache = icons
-            this.icons = icons
-          })
+          iconsPromise = this.$api.get('rasteiner/awesome-picker/icons')
+            .then((icons) => {
+              iconsCache = icons
+              this.icons = icons
+            })
+            .catch((error) => {
+              this.$parent.error = `Error in field "${this.label}": ${error.message}`
+            })
         } else {
           Promise.all([iconsPromise]).then(() => {
             this.icons = iconsCache
@@ -89,7 +96,7 @@ panel.plugin("rasteiner/awesome-picker", {
         }
       },
       template: `
-      <k-field v-bind="$attrs">
+      <k-field v-bind="$attrs" :label="label">
         <div class="afp-input" :class="{open: open}" @click="open = !open">
           <i :class="value"></i>
           <div class="name">
