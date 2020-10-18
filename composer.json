@@ -9,6 +9,11 @@
             "email": "roman@toastlab.ch"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "rasteiner\\awesomepicker\\": "src/"
+        }
+    },
     "require": {
         "getkirby/composer-installer": "^1.1"
     },

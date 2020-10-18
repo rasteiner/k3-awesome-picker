@@ -1,10 +1,23 @@
 <?php
+@include_once __DIR__ . '/vendor/autoload.php';
 
 Kirby::plugin('rasteiner/awesome-picker', [
     'options' => [
         'css-url' => 'https://kit-free.fontawesome.com/releases/latest/css/free.min.css',
         'meta-source' => 'github',
-        'default-styles' => ["solid", "regular", "brands"]
+        'default-styles' => ["solid", "regular", "brands", "light", "duotone"],
+        'loaded-styles' => ["solid", "regular", "brands", "light", "duotone"],
+        'sprites-folder' => false
+    ],
+    'siteMethods' => [
+        'iconSymbols' => function() {
+            return rasteiner\awesomepicker\Icon::svgSymbolTable();
+        }
+    ],
+    'fieldMethods' => [
+        'toIcon' => function($field) {
+            return new rasteiner\awesomepicker\Icon($field->value);
+        }
     ],
     'api' => [
         'data' => [
@@ -29,7 +42,7 @@ Kirby::plugin('rasteiner/awesome-picker', [
                             file_put_contents($filepath, $request->content());
                             return Data::decode($request->content(), 'yaml');
                         } else {
-                            throw new Exception("Could not download icons metadata", 1);
+                            throw new Exception("Could not download icons metadata from github", 1);
                         }
                     }
                 } else {
@@ -40,7 +53,7 @@ Kirby::plugin('rasteiner/awesome-picker', [
                     }
                 }
 
-                return Data::decode(file_get_contents($filepath), 'yaml');
+                return Data::read($filepath);
             }
         ],
         'routes' => [
@@ -63,13 +76,20 @@ Kirby::plugin('rasteiner/awesome-picker', [
                 'action' => function() {
                     $icons = $this->icons();
                     $data = [];
+
+                    $loadedStyles = option('rasteiner.awesome-picker.loaded-styles');
+                    if(is_string($loadedStyles)) $loadedStyles = [ $loadedStyles ];
+                    $loadedStyles = array_flip($loadedStyles);
+
                     foreach ($icons as $name => $item) {
                         foreach ($item['styles'] as $style) {
-                            $data[$style][] = [
-                                'name' => $name,
-                                'label' => $item['label'],
-                                'search' => $item['search']['terms']
-                            ];
+                            if(isset($loadedStyles[$style])) {
+                                $data[$style][] = [
+                                    'name' => $name,
+                                    'label' => $item['label'],
+                                    'search' => $item['search']['terms']
+                                ];
+                            }
                         }
                     }
                     return $data;
