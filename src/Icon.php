@@ -10,6 +10,7 @@ class Icon {
     protected $style;
     protected $styleClass;
     protected $icon;
+    protected $invalid = false;
     protected static $used = [];
 
     public const CLASS_TO_STYLE = ['fab' => 'brands', 'fas' => 'solid', 'far' => 'regular', 'fad' => 'duotone', 'fal' => 'light'];
@@ -22,7 +23,8 @@ class Icon {
         $split = \preg_split('/\s+/', trim($iconClasses));
 
         if(\count($split) !== 2 || !isset(self::CLASS_TO_STYLE[$split[0]])) {
-            throw new Exception("Invalid value for icon: $iconClasses", 1);
+            $this->invalid = true;
+            return;
         }
 
         $this->style = self::CLASS_TO_STYLE[$split[0]];
@@ -31,7 +33,8 @@ class Icon {
         $this->iconClass = $split[1];
         $split2 = \explode('-', $split[1], 2);
         if(count($split2) !== 2 || $split2[0] !== 'fa') {
-            throw new Exception("Invalid value for icon: $iconClasses", 2);
+            $this->invalid = true;
+            return;
         }
         $this->icon = $split2[1];
     }
@@ -91,32 +94,7 @@ class Icon {
 
         return null;
     }
-
-    public function id() {
-        return $this->styleClass . '-' . $this->icon;
-    }
-
-    public function classes() {
-        return $this->styleClass . ' ' . $this->icon;
-    }
-
-    public function registerUse() {
-        $id = $this->id();
-        if(!isset(self::$used[$id])) self::$used[$id] = [$this->style, $this->icon];
-    }
-
-    public function use($attrs = []) {
-        $this->registerUse();
-        return '<svg' . attr($attrs, ' ') . '><use ' . attr(['xlink:href'=> '#' . $this->id()]) . '></use></svg>';
-    }
     
-    public function symbol() {
-        $el = self::symbolElement($this->style, $this->icon, $this->id());
-        if($el) {
-            return $el->asXml();
-        }
-    }
-
     public static function svgSymbolTable() {
         if(\count(self::$used) === 0) {
             return '';
@@ -134,4 +112,35 @@ class Icon {
         $str .= '</svg>';
         return $str;
     }
+
+    public function id() {
+        if($this->invalid) return '';
+        return $this->styleClass . '-' . $this->icon;
+    }
+
+    public function classes() {
+        if($this->invalid) return '';
+        return $this->styleClass . ' ' . $this->icon;
+    }
+
+    public function registerUse() {
+        if($this->invalid) return;
+        $id = $this->id();
+        if(!isset(self::$used[$id])) self::$used[$id] = [$this->style, $this->icon];
+    }
+
+    public function use($attrs = []) {
+        if($this->invalid) return '';
+        $this->registerUse();
+        return '<svg' . attr($attrs, ' ') . '><use ' . attr(['xlink:href'=> '#' . $this->id()]) . '></use></svg>';
+    }
+    
+    public function symbol() {
+        if($this->invalid) return '';
+        $el = self::symbolElement($this->style, $this->icon, $this->id());
+        if($el) {
+            return $el->asXml();
+        }
+    }
+
 }
