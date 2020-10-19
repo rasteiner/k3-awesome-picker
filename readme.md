@@ -43,11 +43,11 @@ Under the `rasteiner.awesome-picker` namespace, you'll have access to the follow
 
 | option | default | description |
 | --- | --- | --- |
-| `'css‑url'` | `'https://kit-free.fontawesome.com/releases/latest/css/free.min.css'` | Used in the panel, the URL to the font awesome CSS |
-| `'meta‑source'` | `'github'` | File path, or function returning the file path, to the "icons.yml" file containing all metadata of the icons. The default setting of 'github' downloads the metadata from github on first usage, then it stores the file on the server |
-| `'sprites‑folder'` | `false` | Useful when using the SVG setup ([see below](#SVG-setup)). Path, or function returning the path, to the sprites folder |
-| `'default‑styles'` | `["solid", "regular", "brands", "light", "duotone"]` | Array or string for which styles should be available when the `styles` setting in your blueprint isn't used |
-| `'loaded‑styles'` | `["solid", "regular", "brands", "light", "duotone"]` | Array or string for which styles should ever be available for use |
+| `'css-url'` | `'https://kit-free.fontawesome.com/releases/latest/css/free.min.css'` | Used in the panel, the URL to the font awesome CSS |
+| `'meta-source'` | `'github'` | File path, or function returning the file path, to the "icons.yml" file containing all metadata of the icons. The default setting of 'github' downloads the metadata from github on first usage, then it stores the file on the server |
+| `'sprites-folder'` | `false` | Useful when using the SVG setup ([see below](#SVG-setup)). Path, or function returning the path, to the sprites folder |
+| `'default-styles'` | `["solid", "regular", "brands", "light", "duotone"]` | Array or string for which styles should be available when the `styles` setting in your blueprint isn't used |
+| `'loaded-styles'` | `["solid", "regular", "brands", "light", "duotone"]` | Array or string for which styles should ever be available for use |
 
 
 ## SVG setup
