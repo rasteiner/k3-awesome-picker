@@ -36,13 +36,17 @@
   display: flex;
   align-items: center;
 }
-
+.afp-dropdown-container {
+  position: relative;
+}
 .afp-dropdown {
   background-color: #fff;
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: stretch;
   border: 1px solid var(--color-border);
+  z-index: 1;
 }
 .afp-list-container {
   margin-top: -1rem;

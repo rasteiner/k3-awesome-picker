@@ -112,29 +112,30 @@ panel.plugin("rasteiner/awesome-picker", {
             <k-icon type="angle-down" />
           </k-button>
         </div>
-        <div v-if="allIcons.length && open" class="afp-dropdown">
-          <k-input
-            :placeholder="$t('search') + ' …'"
-            :autofocus="true"
-            v-model="searchQuery"
-            type="text"
-            class="k-dialog-search"
-            icon="search"
-            ref="searchBox"
-          />
+        <div class="afp-dropdown-container">
+          <div v-if="allIcons.length && open" class="afp-dropdown">
+            <k-input
+              :placeholder="$t('search') + ' …'"
+              :autofocus="true"
+              v-model="searchQuery"
+              type="text"
+              class="k-dialog-search"
+              icon="search"
+              ref="searchBox"
+            />
 
-          <div class="afp-list-container">
-            <div class="afp-list">
-              <span class="afp-list--icon" v-for="icon in filtered" :key="icon.classnames" @click="$emit('input', icon.classnames); open = false">
-                <i :class="icon.classnames"></i>
-                <div class="afp-list--icon-name">
-                  {{icon.label}}
-                </div>
-              </span>
+            <div class="afp-list-container">
+              <div class="afp-list">
+                <span class="afp-list--icon" v-for="icon in filtered" :key="icon.classnames" @click="$emit('input', icon.classnames); open = false">
+                  <i :class="icon.classnames"></i>
+                  <div class="afp-list--icon-name">
+                    {{icon.label}}
+                  </div>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-
       </k-field>`
     }
   }
