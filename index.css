@@ -17,6 +17,7 @@
 }
 .afp-input i {
   width: 3rem;
+  flex-shrink: 0;
   font-size: 1.5rem;
   display: flex;
   align-items: center;
@@ -32,6 +33,7 @@
 }
 .afp-input .k-icon {
   width: 2.25rem;
+  flex-shrink: 0;
   height: 100%;
   display: flex;
   align-items: center;

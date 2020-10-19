@@ -97,19 +97,17 @@ panel.plugin("rasteiner/awesome-picker", {
       },
       template: `
       <k-field v-bind="$attrs" :label="label">
-        <div class="afp-input" :class="{open: open}" @click="open = !open">
+        <div class="afp-input" :class="{open: open}">
           <i :class="value"></i>
-          <div class="name">
-            {{selectedName}}
-          </div>
+          <input type="text" class="name k-text-input" :value="value" @input="$emit('input', $event.target.value)" />
           <k-button v-if="value" @click.stop="$emit('input', ''); $refs.searchBox && $refs.searchBox.focus()" >
             <k-icon type="remove" />
           </k-button>
-          <k-button v-if="open">
-            <k-icon type="angle-up" />
+          <k-button v-if="open" @click="open = false">
+            <k-icon type="cancel" />
           </k-button>
-          <k-button v-else="open">
-            <k-icon type="angle-down" />
+          <k-button v-else @click="open = true">
+            <k-icon type="search" />
           </k-button>
         </div>
         <div class="afp-dropdown-container">
