@@ -6,7 +6,7 @@
 
 .afp-input {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   background-color: #fff;
   border: 1px solid var(--color-border);
   min-height: 3rem;
@@ -17,20 +17,25 @@
 }
 .afp-input i {
   width: 3rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: 0.5rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-right: 1px solid var(--color-border);
-  text-align: center;
 }
 .afp-input .name {
   padding: 0.5rem;
   flex-grow: 1;
   user-select: none;
+  display: flex;
+  align-items: center;
 }
 .afp-input .k-icon {
   width: 2.25rem;
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .afp-dropdown {

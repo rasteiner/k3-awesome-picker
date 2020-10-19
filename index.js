@@ -69,9 +69,9 @@ panel.plugin("rasteiner/awesome-picker", {
             if(!this.styles.includes(cat)) continue;
 
             for(const icon of collection) {
-              const styleclass = 'fa' + cat[0]
+              const styleClass = 'fa' + cat[0]
               icon.cat = cat
-              icon.classnames = `${styleclass} fa-${icon.name}`
+              icon.classnames = `${styleClass} fa-${icon.name}`
               icons.push(icon)
             }
           }
@@ -102,7 +102,15 @@ panel.plugin("rasteiner/awesome-picker", {
           <div class="name">
             {{selectedName}}
           </div>
-          <k-icon type="angle-down" />
+          <k-button v-if="value" @click.stop="$emit('input', ''); $refs.searchBox && $refs.searchBox.focus()" >
+            <k-icon type="remove" />
+          </k-button>
+          <k-button v-if="open">
+            <k-icon type="angle-up" />
+          </k-button>
+          <k-button v-else="open">
+            <k-icon type="angle-down" />
+          </k-button>
         </div>
         <div v-if="allIcons.length && open" class="afp-dropdown">
           <k-input
@@ -112,6 +120,7 @@ panel.plugin("rasteiner/awesome-picker", {
             type="text"
             class="k-dialog-search"
             icon="search"
+            ref="searchBox"
           />
 
           <div class="afp-list-container">
