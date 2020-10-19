@@ -22,7 +22,7 @@ class Icon {
         $split = \preg_split('/\s+/', trim($iconClasses));
 
         if(\count($split) !== 2 || !isset(self::CLASS_TO_STYLE[$split[0]])) {
-            throw new Exception("Invalid value for icon", 1);
+            throw new Exception("Invalid value for icon: $iconClasses", 1);
         }
 
         $this->style = self::CLASS_TO_STYLE[$split[0]];
@@ -31,7 +31,7 @@ class Icon {
         $this->iconClass = $split[1];
         $split2 = \explode('-', $split[1], 2);
         if(count($split2) !== 2 || $split2[0] !== 'fa') {
-            throw new Exception("Invalid value for icon", 1);
+            throw new Exception("Invalid value for icon: $iconClasses", 2);
         }
         $this->icon = $split2[1];
     }
@@ -121,7 +121,7 @@ class Icon {
         if(\count(self::$used) === 0) {
             return '';
         }
-        
+
         $str = '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="display: none;">';
         foreach (self::$used as $id => $info) {
             $symbol = self::symbolElement($info[0], $info[1], $id);
