@@ -15,8 +15,16 @@ Kirby::plugin('rasteiner/awesome-picker', [
         }
     ],
     'fieldMethods' => [
-        'toIcon' => function($field) {
-            return new rasteiner\awesomepicker\Icon($field->value);
+        'toIcon' => function($field, $fallback) {
+            $icon = new rasteiner\awesomepicker\Icon($field->value);
+            if($icon->isInvalid()) {
+                if(is_string($fallback)) {
+                    return new rasteiner\awesomepicker\Icon($fallback);
+                } else if (is_a($fallback, 'Kirby\\Cms\\Field')) {
+                    return new rasteiner\awesomepicker\Icon($fallback->value);
+                }
+            }
+            return $icon;
         }
     ],
     'api' => [

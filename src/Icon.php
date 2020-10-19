@@ -143,4 +143,7 @@ class Icon {
         }
     }
 
+    public function isInvalid() {
+        return $this->invalid;
+    }
 }
