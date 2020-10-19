@@ -21,7 +21,7 @@ Blueprint:
 
 ```yaml
 fields:
-  myicon:
+  myIcon:
     label: My Icon
     type: icon
     styles: 
@@ -39,7 +39,7 @@ This is the chosen icon: <i class="<?= $page->icon() ?>"></i>
 
 ## Config options
 
-Under the `rasteiner.awesome-picker` namespace, you'll have access to the folling options:
+Under the `rasteiner.awesome-picker` namespace, you'll have access to the following options:
 
 | option | default | description |
 | --- | --- | --- |
@@ -58,9 +58,9 @@ If you prefer having your icons embedded in your page and use them via SVG links
     Font Awesome gives you the option to download their icons. Download the "web" version from here: https://fontawesome.com/download. Unzip the file and upload it to your server. 
 2. **Configure the plugin**  
     The plugin needs to know 3 things:
-    1. The URL to the CSS file with all classes you intend to use (this is used only for the panel, you'll find tem in the css folder you downloaded)
+    1. The URL to the CSS file with all classes you intend to use (this is used only for the panel, you'll find them in the css folder you downloaded)
     2. The file path to the metadata of your icons (you'll find this in the "metadata" folder, look for an "icons.yml" file)
-    3. The file path to the folder containing the spritesheets (this is the "sprites" folder)
+    3. The file path to the folder containing the sprite sheets (this is the "sprites" folder)
   
     Here's an example config:
     ```php
@@ -85,13 +85,13 @@ If you prefer having your icons embedded in your page and use them via SVG links
 
     This plugin offers you some functions to help you do this, it tracks which icons have been used, and then injects all used items as symbols. To do this, you'll use the following methods:
     1. the `$field->toIcon()` field method. This gives you an "Icon" object
-    2. the `$icon->use($attrs)` method of the Icon object, this gives you an svg element containing a corresponding `<use>` tag. This method optionally lets you specifiy the attributes given to the `<svg>` tag.
+    2. the `$icon->use($attrs)` method of the Icon object, this gives you an svg element containing a corresponding `<use>` tag. This method optionally lets you specify the attributes given to the `<svg>` tag.
     3. the `$site->iconSymbols()` method which generates an svg element containing all previously used icons as `<symbol>` elements. 
 
     Here's a short example template:
     ```php
     <!-- in your page -->
-    <?= $page->myicon()->toIcon()->use(['class' => 'my-icon-css-class']) ?>
+    <?= $page->myIcon()->toIcon()->use(['class' => 'my-icon-css-class']) ?>
     
     <!-- bottom of your page -->
     <?= $site->iconSymbols() ?>
