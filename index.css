@@ -50,8 +50,11 @@
   border: 1px solid var(--color-border);
   z-index: 1;
 }
+.afp-dropdown--searchbox {
+  margin-bottom: 0;
+}
+
 .afp-list-container {
-  margin-top: -1rem;
   overflow-y: scroll;
   height: 17.8rem;
   padding: 1rem;

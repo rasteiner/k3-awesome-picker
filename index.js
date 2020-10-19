@@ -112,14 +112,18 @@ panel.plugin("rasteiner/awesome-picker", {
         </div>
         <div class="afp-dropdown-container">
           <div v-if="allIcons.length && open" class="afp-dropdown">
-            <k-input
-              :placeholder="$t('search') + ' …'"
-              :autofocus="true"
-              v-model="searchQuery"
-              type="text"
-              class="k-dialog-search"
-              ref="searchBox"
-            />
+            <div class="k-input k-dialog-search afp-dropdown--searchbox">
+              <span class="k-input-element">
+                <input 
+                  v-model="searchQuery"
+                  autocomplete="off"
+                  autofocus="autofocus"
+                  :placeholder="$t('search') + ' …'"
+                  spellcheck="false"
+                  type="search"
+                  class="k-text-input" />
+              </span>
+            </div>
 
             <div class="afp-list-container">
               <div class="afp-list">
