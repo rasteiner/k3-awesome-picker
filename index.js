@@ -104,10 +104,10 @@ panel.plugin("rasteiner/awesome-picker", {
             <k-icon type="remove" />
           </k-button>
           <k-button v-if="open" @click="open = false">
-            <k-icon type="cancel" />
+            <k-icon type="angle-up" />
           </k-button>
           <k-button v-else @click="open = true">
-            <k-icon type="search" />
+            <k-icon type="angle-down" />
           </k-button>
         </div>
         <div class="afp-dropdown-container">
@@ -118,7 +118,6 @@ panel.plugin("rasteiner/awesome-picker", {
               v-model="searchQuery"
               type="text"
               class="k-dialog-search"
-              icon="search"
               ref="searchBox"
             />
 
@@ -128,6 +127,9 @@ panel.plugin("rasteiner/awesome-picker", {
                   <i :class="icon.classnames"></i>
                   <div class="afp-list--icon-name">
                     {{icon.label}}
+                  </div>
+                  <div class="afp-list--icon-style">
+                    {{icon.cat}}
                   </div>
                 </span>
               </div>
