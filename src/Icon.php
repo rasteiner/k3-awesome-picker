@@ -10,7 +10,7 @@ class Icon {
     protected $style;
     protected $styleClass;
     protected $icon;
-    protected static $used;
+    protected static $used = [];
 
     public const CLASS_TO_STYLE = ['fab' => 'brands', 'fas' => 'solid', 'far' => 'regular', 'fad' => 'duotone', 'fal' => 'light'];
     public const STYLE_TO_CLASS = ['brands' => 'fab', 'solid' => 'fas', 'regular' => 'far', 'duotone' => 'fad', 'light' => 'fal'];
@@ -118,6 +118,10 @@ class Icon {
     }
 
     public static function svgSymbolTable() {
+        if(\count(self::$used) === 0) {
+            return '';
+        }
+        
         $str = '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="display: none;">';
         foreach (self::$used as $id => $info) {
             $symbol = self::symbolElement($info[0], $info[1], $id);
