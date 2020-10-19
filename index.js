@@ -4,6 +4,19 @@ let iconsPromise = false
 let iconsCache = false
 let stylesAdded = false
 
+function debounce(fn, delay) {
+  var timeoutID = null
+  return function () {
+    clearTimeout(timeoutID)
+    var args = arguments
+    var that = this
+    timeoutID = setTimeout(function () {
+      fn.apply(that, args)
+    }, delay)
+  }
+}
+
+
 function addStyles($api) {
   if(!stylesAdded) {
     stylesAdded = true
@@ -42,11 +55,14 @@ panel.plugin("rasteiner/awesome-picker", {
         return {
           icons: {},
           open: false,
-          searchQuery: ''
+          searchQuery: '',
+          columns: 2,
+          resizeHandler: null
         }
       },
       created() {
         addStyles(this.$api)
+
         if(!iconsPromise) {
           iconsPromise = this.$api.get('rasteiner/awesome-picker/icons')
             .then((icons) => {
@@ -60,6 +76,20 @@ panel.plugin("rasteiner/awesome-picker", {
           Promise.all([iconsPromise]).then(() => {
             this.icons = iconsCache
           })
+        }
+      },
+      mounted() {
+        this.resizeHandler = debounce(this.onResize, 150)
+        window.addEventListener("resize", this.resizeHandler);
+        this.onResize();
+      },
+      destroyed() {
+        window.removeEventListener("resize", this.resizeHandler);
+      },
+      methods: {
+        onResize(e) {
+          const width = this.$el.clientWidth / parseFloat(getComputedStyle(document.documentElement).fontSize);
+          this.columns = Math.round(width / 8.5);
         }
       },
       computed: {
@@ -126,8 +156,8 @@ panel.plugin("rasteiner/awesome-picker", {
             </div>
 
             <div class="afp-list-container">
-              <div class="afp-list">
-                <span class="afp-list--icon" v-for="icon in filtered" :key="icon.classnames" @click="$emit('input', icon.classnames); open = false">
+              <div class="afp-list" :style="{'--num-columns': columns}">
+                <span class="afp-list--icon" :title="icon.label" v-for="icon in filtered" :key="icon.classnames" @click="$emit('input', icon.classnames); open = false">
                   <i :class="icon.classnames"></i>
                   <div class="afp-list--icon-name">
                     {{icon.label}}
