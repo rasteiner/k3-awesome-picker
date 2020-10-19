@@ -87,7 +87,7 @@ panel.plugin("rasteiner/awesome-picker", {
               icon.name.toLowerCase().indexOf(query) > -1
               ||  icon.label.toLowerCase().indexOf(query) > -1
               ||  icon.search.filter(term =>
-                    term.toLowerCase().indexOf(query) > -1
+                    `${term}`.toLowerCase().indexOf(query) > -1
                   ).length > 0
             )
           } else {

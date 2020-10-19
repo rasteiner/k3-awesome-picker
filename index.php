@@ -87,7 +87,7 @@ Kirby::plugin('rasteiner/awesome-picker', [
                                 $data[$style][] = [
                                     'name' => $name,
                                     'label' => $item['label'],
-                                    'search' => $item['search']['terms']
+                                    'search' => $item['search']['terms'] ?? []
                                 ];
                             }
                         }
