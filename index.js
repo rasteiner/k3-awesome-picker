@@ -21,7 +21,7 @@ function addStyles($api) {
   if(!stylesAdded) {
     stylesAdded = true
     const link = document.createElement('link')
-    
+
     $api.get('rasteiner/awesome-picker/cssurl').then((info) => {
       link.href = info.url
       link.rel = 'stylesheet'
@@ -99,10 +99,16 @@ panel.plugin("rasteiner/awesome-picker", {
             if(!this.styles.includes(cat)) continue;
 
             for(const icon of collection) {
-              const styleClass = 'fa' + cat[0]
-              icon.cat = cat
-              icon.classnames = `${styleClass} fa-${icon.name}`
-              icons.push(icon)
+              if(cat === 'custom') {
+                icon.cat = cat
+                icon.classnames = `custom ${icon.name}`
+                icons.push(icon)
+              } else {
+                const styleClass = 'fa' + cat[0]
+                icon.cat = cat
+                icon.classnames = `${styleClass} fa-${icon.name}`
+                icons.push(icon)
+              }
             }
           }
           return icons.sort((a, b) => a.name.localeCompare(b.name) || a.cat.localeCompare(b.cat))
@@ -144,7 +150,7 @@ panel.plugin("rasteiner/awesome-picker", {
           <div v-if="allIcons.length && open" class="afp-dropdown">
             <div class="k-input k-dialog-search afp-dropdown--searchbox">
               <span class="k-input-element">
-                <input 
+                <input
                   v-model="searchQuery"
                   autocomplete="off"
                   autofocus="autofocus"
