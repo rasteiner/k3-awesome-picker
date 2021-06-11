@@ -22,21 +22,30 @@ class Icon {
     public function __construct($iconClasses) {
         $split = \preg_split('/\s+/', trim($iconClasses));
 
-        if(\count($split) !== 2 || !isset(self::CLASS_TO_STYLE[$split[0]])) {
+        if(\count($split) !== 2) {
             $this->invalid = true;
             return;
         }
-
-        $this->style = self::CLASS_TO_STYLE[$split[0]];
-        $this->styleClass = $split[0];
 
         $this->iconClass = $split[1];
-        $split2 = \explode('-', $split[1], 2);
-        if(count($split2) !== 2 || $split2[0] !== 'fa') {
-            $this->invalid = true;
-            return;
+        $this->styleClass = $split[0];
+
+
+        if(isset(self::CLASS_TO_STYLE[$split[0]])) {
+            $this->style = self::CLASS_TO_STYLE[$split[0]];
+
+            $split2 = \explode('-', $split[1], 2);
+            if(count($split2) !== 2 || $split2[0] !== 'fa') {
+                $this->invalid = true;
+                return;
+            }
+
+            $this->icon = $split2[1];
+        } else {
+            $this->style = $split[0];
+            $this->icon = $split[1];
         }
-        $this->icon = $split2[1];
+
     }
 
     protected static function loadSpritesheet($style) {
@@ -72,6 +81,7 @@ class Icon {
 
             $xml->registerXPathNamespace('s', 'http://www.w3.org/2000/svg');
             self::$spritesCache[$style] = $xml;
+
         }
 
         return self::$spritesCache[$style];
