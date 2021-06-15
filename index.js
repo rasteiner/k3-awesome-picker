@@ -30,6 +30,9 @@ function addStyles($api) {
   }
 }
 
+// export addStyles function, so that other plugins can initialize the icons
+panel.awesomePickerAddStyles = addStyles
+  
 panel.plugin("rasteiner/awesome-picker", {
   components: {
     'k-icon-field-preview': {
