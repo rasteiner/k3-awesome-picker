@@ -114,7 +114,7 @@ panel.plugin("rasteiner/awesome-picker", {
               }
             }
           }
-          return icons.sort((a, b) => a.name.localeCompare(b.name) || a.cat.localeCompare(b.cat))
+          return icons.sort((a, b) => a.name.toString().localeCompare(b.name.toString()) || a.cat.localeCompare(b.cat))
         },
         selectedName() {
           return this.value
@@ -123,7 +123,7 @@ panel.plugin("rasteiner/awesome-picker", {
           const query = this.searchQuery.trim().toLowerCase()
           if(query.length) {
             return this.allIcons.filter(icon =>
-              icon.name.toLowerCase().indexOf(query) > -1
+              icon.name.toString().toLowerCase().indexOf(query) > -1
               ||  icon.label.toLowerCase().indexOf(query) > -1
               ||  icon.search.filter(term =>
                     `${term}`.toLowerCase().indexOf(query) > -1
