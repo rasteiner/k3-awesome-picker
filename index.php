@@ -1,7 +1,12 @@
 <?php
+
+use Kirby\Cms\App;
+use Kirby\Data\Data;
+use Kirby\Http\Remote;
+
 @include_once __DIR__ . '/vendor/autoload.php';
 
-Kirby::plugin('rasteiner/awesome-picker', [
+App::plugin('rasteiner/awesome-picker', [
     'options' => [
         'css-url' => 'https://kit-free.fontawesome.com/releases/latest/css/free.min.css',
         'meta-source' => 'github',
@@ -37,18 +42,19 @@ Kirby::plugin('rasteiner/awesome-picker', [
                 if(!is_string($opt)) {
                     throw new Exception("option 'rasteiner.awesome-picker.meta-source' does not evaluate to type \"string\", but \"" . gettype($opt) . "\"", 1);
                 }
+
+                $cacheFolder = option('rasteiner.awesome-picker.cache-folder', kirby()->root('cache') . '/rasteiner-awesome-picker');
+
                 if($opt === 'github') {
-                    $dirname = __DIR__ . '/data';
-                    $filepath = "$dirname/icons.yml";
+                    $filepath = "$cacheFolder/icons.yml";
 
                     if(!file_exists($filepath)) {
-                        if(!is_dir($dirname)) {
-                            mkdir($dirname);
-                        }
                         $request = Remote::get('https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/metadata/icons.yml');
                         if($request->code() === 200) {
+                            if(!is_dir($cacheFolder)) {
+                                mkdir($cacheFolder, 0755, true);
+                            }
                             file_put_contents($filepath, $request->content());
-                            return Data::decode($request->content(), 'yaml');
                         } else {
                             throw new Exception("Could not download icons metadata from github", 1);
                         }
@@ -58,6 +64,27 @@ Kirby::plugin('rasteiner/awesome-picker', [
                         $filepath = $opt;
                     } else {
                         throw new Exception("Metadata YAML file for icons not fount: \"$opt\"", 1);
+                    }
+                }
+
+                //is it a yml file?
+                $ext = pathinfo($opt, PATHINFO_EXTENSION);
+                if($ext === 'yml' || $ext === 'yaml') {
+                    // then use and cache a json version - because it's *much* faster to parse
+                    $timestamp = filemtime($opt);
+                    $pathhash = md5($opt);
+
+                    $cacheFile = "$cacheFolder/icons.$timestamp.$pathhash.json";
+                    
+                    if(!file_exists($cacheFile)) {
+                        if(!is_dir($cacheFolder)) {
+                            mkdir($cacheFolder, 0755, true);
+                        }
+                        $data = Data::read($opt);
+                        file_put_contents($cacheFile, json_encode($data));
+                        return $data;
+                    } else {
+                        $filepath = $cacheFile;
                     }
                 }
 
@@ -100,6 +127,7 @@ Kirby::plugin('rasteiner/awesome-picker', [
                             }
                         }
                     }
+
                     return $data;
                 }
             ]
