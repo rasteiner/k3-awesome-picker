@@ -20,13 +20,17 @@ App::plugin('rasteiner/awesome-picker', [
         }
     ],
     'fieldMethods' => [
-        'toIcon' => function($field, $fallback) {
+        'toIcon' => function($field, $fallback=null) {
             $icon = new rasteiner\awesomepicker\Icon($field->value);
             if($icon->isInvalid()) {
-                if(is_string($fallback)) {
-                    return new rasteiner\awesomepicker\Icon($fallback);
-                } else if (is_a($fallback, 'Kirby\\Cms\\Field')) {
-                    return new rasteiner\awesomepicker\Icon($fallback->value);
+                if($fallback) {
+                    if(is_string($fallback)) {
+                        return new rasteiner\awesomepicker\Icon($fallback);
+                    } else if (is_a($fallback, 'Kirby\\Cms\\Field')) {
+                        return new rasteiner\awesomepicker\Icon($fallback->value);
+                    }
+                } else {
+                    return null;
                 }
             }
             return $icon;
