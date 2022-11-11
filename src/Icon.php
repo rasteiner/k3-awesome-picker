@@ -97,6 +97,15 @@ class Icon {
             if(count($els)) {
                 $el = $els[0];
                 $el->attributes()->id = $id;
+                
+                //for each element with classname "fa-primary" or "fa-secondary"...
+                foreach($el->xpath('.//*[@class="fa-primary" or @class="fa-secondary"]') as $child) {
+                    // ...remove the class and set it as fill style variable
+                    $class = $child->attributes()->class;
+                    $child->addAttribute('style', "fill: var(--$class)");
+                    unset($child->attributes()->class);
+                }
+
                 self::$symbolCache[$id] = $el;
                 return self::$symbolCache[$id];
             }
