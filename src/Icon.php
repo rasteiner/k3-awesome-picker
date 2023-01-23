@@ -10,6 +10,7 @@ class Icon {
     protected $style;
     protected $styleClass;
     protected $icon;
+    protected $iconClass;
     protected $invalid = false;
     protected static $used = [];
 
