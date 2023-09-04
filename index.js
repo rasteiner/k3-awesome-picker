@@ -185,19 +185,17 @@
         },
         template: `
       <k-field v-bind="$attrs" :label="label">
-        <div class="afp-input" :class="{open: open}">
-          <i :class="value"></i>
+        <k-input class="afp-input" theme="field">
+          <template #before>
+            <i :class="value" #before></i>
+          </template>
           <input type="text" class="name k-text-input" :value="value" @input="$emit('input', $event.target.value)" spellcheck="false" />
-          <k-button v-if="value" @click.stop="$emit('input', ''); $refs.searchBox && $refs.searchBox.focus()" >
-            <k-icon type="remove" />
-          </k-button>
-          <k-button v-if="open" @click="open = false">
-            <k-icon type="angle-up" />
-          </k-button>
-          <k-button v-else @click="open = true">
-            <k-icon type="angle-down" />
-          </k-button>
-        </div>
+          <template #after>
+            <k-button v-if="value" @click.stop="$emit('input', ''); $refs.searchBox && $refs.searchBox.focus()" icon="remove" />
+            <k-button v-if="open" @click="open = false" icon="angle-up" />
+            <k-button v-else @click="open = true" icon="angle-down" />
+          </template>
+        </k-input>
         <div class="afp-dropdown-container">
           <div v-if="allIcons.length && open" class="afp-dropdown">
             <div class="k-input k-dialog-search afp-dropdown--searchbox">
