@@ -5,39 +5,12 @@
 }
 
 .afp-input {
-  display: flex;
-  align-items: stretch;
-  background-color: #fff;
-  border: 1px solid var(--color-border);
-  height: 2.375rem;
+  --field-input-color-before: var(--theme-color-text);
+  --field-input-color-after: var(--theme-color-text);
+  position: relative;
+  z-index: 1;
 }
 
-.afp-input.open {
-  border: 1px solid #4271ae;
-}
-.afp-input i {
-  width: 3rem;
-  flex-shrink: 0;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid var(--color-border);
-}
-.afp-input .name {
-  padding: 0.5rem;
-  flex-grow: 1;
-  user-select: none;
-  display: flex;
-  align-items: center;
-}
-.afp-input .k-icon {
-  width: 2.25rem;
-  flex-shrink: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
 .afp-dropdown-container {
   position: relative;
 }
