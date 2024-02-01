@@ -2,8 +2,6 @@
 
 namespace rasteiner\awesomepicker;
 
-use Kirby\Cms\Html;
-use Kirby\Data\Data;
 use \Exception;
 
 class Icon {
@@ -51,7 +49,8 @@ class Icon {
 
     protected static function loadSpritesheet($style) {
         if(!isset(self::$spritesCache[$style])) {
-            $opt = option('rasteiner.awesome-picker.sprites-folder', false);
+            $opt = unpack(option('rasteiner.awesome-picker.sprites-folder', false));
+
             if($opt === false) {
                 throw new Exception("icon sprite could not be loaded (you need to set the 'rasteiner.awesome-picker.sprites-folder' option)", 1);
             }

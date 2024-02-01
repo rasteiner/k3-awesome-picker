@@ -1,10 +1,39 @@
 <?php
 
+namespace rasteiner\awesomepicker;
+
+use Closure;
+use Exception;
 use Kirby\Cms\App;
 use Kirby\Data\Data;
 use Kirby\Http\Remote;
 
 @include_once __DIR__ . '/vendor/autoload.php';
+
+/**
+ * Unpacks the given configuration.
+ *
+ * If the configuration is a callable, it is invoked and its result is unpacked.
+ * If the configuration is an array, each value in the array is recursively unpacked.
+ * If the configuration is neither a callable nor an array, it is returned as is.
+ * 
+ * Note that this function is recursive and may lead to an infinite loop if the callable returns itself or the array contains itself.
+ * @param mixed $config The configuration to unpack. Can be a callable, an array, or any other type.
+ * @return mixed The unpacked configuration. The type depends on the input configuration.
+ */
+function unpack($config) {
+    if($config instanceof Closure) {
+        return unpack($config());
+    }
+    if(is_array($config)) {
+        $result = [];
+        foreach ($config as $key => $value) {
+            $result[$key] = unpack($value);
+        }
+        return $result;
+    }
+    return $config;
+}
 
 App::plugin('rasteiner/awesome-picker', [
     'options' => [
@@ -16,18 +45,18 @@ App::plugin('rasteiner/awesome-picker', [
     ],
     'siteMethods' => [
         'iconSymbols' => function() {
-            return rasteiner\awesomepicker\Icon::svgSymbolTable();
+            return Icon::svgSymbolTable();
         }
     ],
     'fieldMethods' => [
         'toIcon' => function($field, $fallback=null) {
-            $icon = new rasteiner\awesomepicker\Icon($field->value);
+            $icon = new Icon($field->value);
             if($icon->isInvalid()) {
                 if($fallback) {
                     if(is_string($fallback)) {
-                        return new rasteiner\awesomepicker\Icon($fallback);
+                        return new Icon($fallback);
                     } else if (is_a($fallback, 'Kirby\\Cms\\Field')) {
-                        return new rasteiner\awesomepicker\Icon($fallback->value);
+                        return new Icon($fallback->value);
                     }
                 } else {
                     return null;
@@ -40,9 +69,7 @@ App::plugin('rasteiner/awesome-picker', [
         'data' => [
             'icons' => function() {
                 $opt = option('rasteiner.awesome-picker.meta-source');
-                if(is_callable($opt)) {
-                    $opt = $opt();
-                }
+                $opt = unpack($opt);
                 if(!is_string($opt)) {
                     throw new Exception("option 'rasteiner.awesome-picker.meta-source' does not evaluate to type \"string\", but \"" . gettype($opt) . "\"", 1);
                 }
@@ -100,9 +127,7 @@ App::plugin('rasteiner/awesome-picker', [
                 'pattern' => 'rasteiner/awesome-picker/cssurl',
                 'action' => function() {
                     $opt = option('rasteiner.awesome-picker.css-url');
-                    if(is_callable($opt)) {
-                        $opt = $opt();
-                    }
+                    $opt = unpack($opt);
                     if(!is_string($opt)) {
                         throw new Exception("option 'rasteiner.awesome-picker.css-url' does not evaluate to type \"string\", but \"" . gettype($opt) . "\"", 1);
                     }
@@ -117,6 +142,8 @@ App::plugin('rasteiner/awesome-picker', [
                     $data = [];
 
                     $loadedStyles = option('rasteiner.awesome-picker.loaded-styles');
+                    $loadedStyles = unpack($loadedStyles);
+
                     if(is_string($loadedStyles)) $loadedStyles = [ $loadedStyles ];
                     $loadedStyles = array_flip($loadedStyles);
 
@@ -144,6 +171,7 @@ App::plugin('rasteiner/awesome-picker', [
                     if($styles === null) {
                         $styles = option('rasteiner.awesome-picker.default-styles');
                     }
+                    $styles = unpack($styles);
                     if(is_string($styles)) {
                         $styles = [$styles];
                     }
